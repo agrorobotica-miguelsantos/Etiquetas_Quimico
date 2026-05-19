@@ -232,7 +232,7 @@ def gerar_pdf_por_sigla(tipo, inicio, fim, ordem, pasta_saida, legendas):
         for rep in range(repeticoes):
             for i in range(0, len(numeros), 4):
                 grupo = numeros[i:i + 4]
-                desenhar_pagina(c, tipo, sigla, grupo, ordem)
+                desenhar_pagina(c, unidade, tipo, sigla, grupo, ordem)
 
         c.save()
         arquivos_gerados.append(output_path)
