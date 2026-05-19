@@ -94,7 +94,7 @@ st.markdown("""
 
 hr {
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 </style>
 """, unsafe_allow_html=True)
