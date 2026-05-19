@@ -116,8 +116,17 @@ st.markdown(
 st.divider()
 
 # ================= FONTES =================
-pdfmetrics.registerFont(TTFont("TimesNewRoman", r"C:\Windows\Fonts\times.ttf"))
-pdfmetrics.registerFont(TTFont("TimesNewRomanBold", r"C:\Windows\Fonts\timesbd.ttf"))
+try:
+    pdfmetrics.registerFont(TTFont("TimesNewRoman", r"C:\Windows\Fonts\times.ttf"))
+    pdfmetrics.registerFont(TTFont("TimesNewRomanBold", r"C:\Windows\Fonts\timesbd.ttf"))
+
+    times_normal = "TimesNewRoman"
+    times_negrito = "TimesNewRomanBold"
+
+except:
+
+    times_normal = "Times-Roman"
+    times_negrito = "Times-Bold"
 
 # ================= CONFIGURAÇÕES =================
 cm = 28.3465
@@ -188,13 +197,13 @@ def desenhar_pagina(c, tipo, sigla, numeros, ordem):
         linha2 = f"ATV {tipo}"
         linha3 = f"{sigla} {str(num).zfill(3)}"
 
-        c.setFont("TimesNewRomanBold", 10)
+        c.setFont(times_negrito, 10)
         c.drawCentredString(x_centro, y_centro + 6, linha1)
 
-        c.setFont("TimesNewRomanBold", 10)
+        c.setFont(times_negrito, 10)
         c.drawCentredString(x_centro, y_centro - 3, linha2)
 
-        c.setFont("TimesNewRomanBold", 12)
+        c.setFont(times_negrito, 12)
         c.drawCentredString(x_centro, y_centro - 14, linha3)
 
     c.showPage()
