@@ -227,10 +227,6 @@ def desenhar_pagina(c, unidade, tipo, sigla, numeros, ordem):
         c.setFont(times_negrito, 10)
         c.drawCentredString(x_centro, y_centro + 6, linha3)
 
-
-
-
-
     c.showPage()
 
 
