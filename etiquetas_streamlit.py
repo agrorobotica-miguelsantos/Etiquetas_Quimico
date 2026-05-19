@@ -102,6 +102,20 @@ hr {
 # ================= CABEÇALHO =================
 st.markdown(
     """
+    <style>
+    .titulo-app {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .subtitulo-app {
+        text-align: center;
+        font-size: 18px;
+        color: #666666;
+    }
+    </style>
+
     <div class="titulo-app">
         Gerador de Etiquetas ATVOS
     </div>
