@@ -142,6 +142,11 @@ ordem = st.text_input(
     placeholder="Ex: 004"
 )
 
+unidade = st.text_input(
+    "Qual a Unidade-ATVOS?",
+    placeholder="Ex: UEL"
+)
+
 st.subheader("Intervalo das etiquetas")
 
 col1, col2 = st.columns(2)
@@ -188,13 +193,13 @@ selecionadas = st.multiselect(
 )
 
 # ================= FUNÇÕES =================
-def desenhar_pagina(c, tipo, sigla, numeros, ordem):
+def desenhar_pagina(c, unidade, tipo, sigla, numeros, ordem):
     for idx, num in enumerate(numeros):
         x_centro = (idx * largura_coluna) + (largura_coluna / 2)
         y_centro = altura_etiqueta / 2
 
         linha1 = f"{ordem}"
-        linha2 = f"ATV {tipo}"
+        linha2 = f"{unidade}-{tipo}"
         linha3 = f"{sigla} {str(num).zfill(3)}"
 
         c.setFont(times_negrito, 10)
