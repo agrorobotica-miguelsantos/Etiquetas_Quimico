@@ -219,13 +219,13 @@ def desenhar_pagina(c, unidade, tipo, sigla, numeros, ordem):
         linha3 = f"OS_{ordem}"
 
         c.setFont(times_negrito, 12)
-        c.drawCentredString(x_centro, y_centro - 14, linha1)
+        c.drawCentredString(x_centro, y_centro + 6, linha1)
 
         c.setFont(times_negrito, 10)
         c.drawCentredString(x_centro, y_centro - 3, linha2)
 
         c.setFont(times_negrito, 10)
-        c.drawCentredString(x_centro, y_centro + 6, linha3)
+        c.drawCentredString(x_centro, y_centro - 14, linha3)
 
     c.showPage()
 
