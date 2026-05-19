@@ -169,7 +169,7 @@ with col2:
 
 tipo_etiqueta = st.selectbox(
     "Qual tipo deseja gerar?",
-    ["FERT", "PAV", "FERT e PAV"]
+    ["FERT", "PAV"]
 )
 
 st.subheader("Selecione as análises")
@@ -260,7 +260,7 @@ if st.button("Gerar etiquetas"):
             legendas = {sigla: 1 for sigla in selecionadas}
             arquivos = []
 
-            if tipo_etiqueta in ["FERT", "FERT e PAV"]:
+            if tipo_etiqueta in ["FERT"]:
                 arquivos += gerar_pdf_por_sigla(
                     "FERT",
                     inicio,
@@ -270,7 +270,7 @@ if st.button("Gerar etiquetas"):
                     legendas
                 )
 
-            if tipo_etiqueta in ["PAV", "FERT e PAV"]:
+            if tipo_etiqueta in ["PAV"]:
                 arquivos += gerar_pdf_por_sigla(
                     "PAV",
                     inicio,
