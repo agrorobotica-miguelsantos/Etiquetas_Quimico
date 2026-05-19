@@ -137,6 +137,8 @@ largura_coluna = largura_etiqueta / 4
 # ================= FORMULÁRIO =================
 st.markdown('<div class="card">', unsafe_allow_html=True)
 
+st.subheader("Informações iniciais")
+
 ordem = st.text_input(
     "Qual a OS-ATVOS?",
     placeholder="Ex: 004"
@@ -168,11 +170,11 @@ with col2:
     )
 
 tipo_etiqueta = st.selectbox(
-    "Qual tipo deseja gerar?",
+    "Qual tipo deseja gerar? (Escolha FERT ou PAV)",
     ["FERT", "PAV"]
 )
 
-st.subheader("Selecione as análises")
+st.subheader("Seleção das análises")
 
 opcoes_legendas = {
     "m": "Macro",
