@@ -237,7 +237,7 @@ if st.button("Gerar etiquetas"):
         st.error("[ERRO]: Selecione pelo menos uma análise.")
 
     else:
-        df = pd.read_excel(arquivo_excel, sheet_name="ETIQUETAS")
+        df = pd.read_excel(arquivo_excel)
 
         colunas_existentes = list(df.columns)
 
