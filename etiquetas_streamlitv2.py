@@ -135,11 +135,6 @@ arquivo_excel = st.file_uploader(
     type=["xlsx"]
 )
 
-tipo_etiqueta = st.selectbox(
-    "2.Qual tipo deseja gerar?",
-    ["FERT", "PAV"]
-)
-
 opcoes_legendas = {
     "k": "KP Mehlich",
     "m": "Macro",
@@ -174,43 +169,39 @@ def limpar_lista_etiquetas(df, sigla):
 
 
 def quebrar_codigo(codigo):
-    partes = codigo.split("|")
+    partes = codigo.split("|", 1)
 
-    etiqueta = partes[0] if len(partes) > 0 else ""
-    os_num = partes[1] if len(partes) > 1 else ""
-    unidade = partes[2] if len(partes) > 2 else ""
+    analise = partes[0] if len(partes) > 0 else ""
+    especif = partes[1] if len(partes) > 1 else ""
 
-    return etiqueta, os_num, unidade
+    return analise, especif
 
 
-def desenhar_pagina(c, tipo, codigos):
+def desenhar_pagina(c, codigos):
     for idx, codigo in enumerate(codigos):
         x_centro = (idx * largura_coluna) + (largura_coluna / 2)
         y_centro = altura_etiqueta / 2
 
-        etiqueta, os_num, unidade, = quebrar_codigo(codigo)
+        analise, especif = quebrar_codigo(codigo)
 
-        linha3 = f"OS {os_num}"
-        linha2 = f"{unidade} {tipo}"
-        linha1 = etiqueta
-
-        c.setFont(FONTE_NEGRITO, 10)
-        c.drawCentredString(x_centro, y_centro + 7, linha1)
+        linha1 = analise
+        linha2 = especif
 
         c.setFont(FONTE_NEGRITO, 10)
-        c.drawCentredString(x_centro, y_centro - 3, linha2)
+        c.drawCentredString(x_centro, y_centro + 5, linha1)
 
         c.setFont(FONTE_NEGRITO, 10)
-        c.drawCentredString(x_centro, y_centro - 13, linha3)
+        c.drawCentredString(x_centro, y_centro - 10, linha2)
 
     c.showPage()
 
 
-def gerar_pdf_por_sigla(tipo, sigla, codigos, pasta_saida):
+def gerar_pdf_por_sigla(sigla, codigos, pasta_saida, nome_arquivo):
     if not codigos:
         return None
 
-    nome_pdf = f"ATVOS_{sigla}_{tipo}.pdf"
+    nome_base = Path(nome_arquivo).stem
+    nome_pdf = f"{nome_base}_{sigla}.pdf"
     output_path = pasta_saida / nome_pdf
 
     c = canvas.Canvas(
@@ -220,7 +211,7 @@ def gerar_pdf_por_sigla(tipo, sigla, codigos, pasta_saida):
 
     for i in range(0, len(codigos), 4):
         grupo = codigos[i:i + 4]
-        desenhar_pagina(c, tipo, grupo)
+        desenhar_pagina(c, grupo)
 
     c.save()
 
@@ -254,28 +245,19 @@ if st.button("Gerar etiquetas"):
                 pasta_saida = Path(tmpdir)
                 arquivos = []
 
-                tipos = []
+                for sigla in selecionadas_validas:
+                    codigos = limpar_lista_etiquetas(df, sigla)
 
-                if tipo_etiqueta in ["FERT"]:
-                    tipos.append("FERT")
+                    pdf = gerar_pdf_por_sigla(
+                        sigla=sigla,
+                        codigos=codigos,
+                        pasta_saida=pasta_saida,
+                        nome_arquivo=arquivo_excel.name
+                    )
 
-                if tipo_etiqueta in ["PAV"]:
-                    tipos.append("PAV")
-
-                for tipo in tipos:
-                    for sigla in selecionadas_validas:
-                        codigos = limpar_lista_etiquetas(df, sigla)
-
-                        pdf = gerar_pdf_por_sigla(
-                            tipo=tipo,
-                            sigla=sigla,
-                            codigos=codigos,
-                            pasta_saida=pasta_saida
-                        )
-
-                        if pdf is not None:
-                            arquivos.append(pdf)
-
+                    if pdf is not None:
+                        arquivos.append(pdf)
+                        
                 zip_path = pasta_saida / "Etiquetas_ATVOS.zip"
 
                 with zipfile.ZipFile(zip_path, "w") as zipf:
@@ -288,7 +270,7 @@ if st.button("Gerar etiquetas"):
                     st.download_button(
                         label="Baixar etiquetas em ZIP",
                         data=f,
-                        file_name="Etiquetas_ATVOS.zip",
+                        file_name="Etiquetas_Quimico.zip",
                         mime="application/zip"
                     )
 
